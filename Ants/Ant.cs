@@ -36,7 +36,12 @@ namespace Ants
                 Movement = new Point(random.Next(-1, 2), random.Next(-1, 2));
             }
 
-            Position += Movement;
+            if (Position + Movement != Position)
+            {
+                PreviousePositions.Add(Position);
+                Position += Movement;
+            }
+            
 
 
             if (Grid.Slots[Position.Y][Position.X].isFood)
@@ -46,7 +51,7 @@ namespace Ants
         {
             if (followingPath)
             {
-                if (PreviousePositions.IndexOf(Position) == PreviousePositions.Count() - 1)
+                if (PreviousePositions.IndexOf(Position) >= PreviousePositions.Count() - 1)
                     followingPath = false;
                 else
                     Position = PreviousePositions[PreviousePositions.IndexOf(Position) + 1];

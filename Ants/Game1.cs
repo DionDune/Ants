@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -37,14 +38,20 @@ namespace Ants
             Grid = new Grid(new Point(100, 100));
             Ants = new List<Ant>();
 
-            for (int i = 0; i < 500; i++)
+            for (int i = 0; i < 50; i++)
             {
                 Ants.Add( new Ant( new Point(50, 50) ) );
             }
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < Grid.Dimentions.X; i++)
             {
-                Grid.Slots[_random.Next(0, Grid.Dimentions.Y)][_random.Next(0, Grid.Dimentions.X)].isFood = true;
+                Grid.Slots[0][i].isFood = true;
+                Grid.Slots.Last()[i].isFood = true;
+            }
+            for (int i = 0; i < Grid.Dimentions.Y; i++)
+            {
+                Grid.Slots[i][0].isFood = true;
+                Grid.Slots[i].Last().isFood = true;
             }
 
             base.Initialize();

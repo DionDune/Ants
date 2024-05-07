@@ -16,7 +16,8 @@ namespace Ants
         Texture2D Texture_White;
 
         Grid Grid;
-        List<Ant> Ants;
+        Hive Hive;
+        //List<Ant> Ants;
 
 
 
@@ -36,12 +37,8 @@ namespace Ants
             _random = new Random();
 
             Grid = new Grid(new Point(100, 100));
-            Ants = new List<Ant>();
+            Hive = new Hive(new Point(50, 50), 50);
 
-            for (int i = 0; i < 50; i++)
-            {
-                Ants.Add( new Ant( new Point(50, 50) ) );
-            }
 
             for (int i = 0; i < Grid.Dimentions.X; i++)
             {
@@ -72,7 +69,7 @@ namespace Ants
                 Exit();
 
 
-            Ant.MoveAnts(Grid, Ants);
+            Hive.enactAI(Grid);
 
 
             base.Update(gameTime);
@@ -98,7 +95,7 @@ namespace Ants
                 }
             }
 
-            foreach (Ant Ant in Ants)
+            foreach (Ant Ant in Hive.Ants)
             {
                 if (Ant.destinationFound)
                     _spriteBatch.Draw(Texture_White, new Rectangle(Ant.Position.X * 10, Ant.Position.Y * 10, 10, 10), Color.Blue);

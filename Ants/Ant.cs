@@ -7,6 +7,33 @@ using Microsoft.Xna.Framework;
 
 namespace Ants
 {
+    internal class Hive
+    {
+        public List<Ant> Ants { get; set; }
+        public List<List<Point>> Paths { get; set; }
+
+        public Hive(Point Position, int antCount)
+        {
+            Paths = new List<List<Point>>();
+            Ants = new List<Ant>();
+
+            for (int i = 0; i < antCount; i++)
+            {
+                Ants.Add(new Ant(Position));
+            }
+        }
+
+
+        public void enactAI(Grid Grid)
+        {
+            foreach (Ant Ant in Ants)
+            {
+                Ant.enactAI(Grid);
+            }
+        }
+    }
+
+
     internal class Ant
     {
         public Point Position { get; set; }
@@ -80,6 +107,17 @@ namespace Ants
                 {
                     Ant.RandomMove(Grid);
                 }
+            }
+        }
+        public void enactAI(Grid Grid)
+        {
+            if (destinationFound)
+            {
+                PathMove();
+            }
+            else
+            {
+                RandomMove(Grid);
             }
         }
     }

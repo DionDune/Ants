@@ -20,6 +20,7 @@ namespace Ants
             for (int i = 0; i < antCount; i++)
             {
                 Ants.Add(new Ant(Position));
+                Ants.Last().Hive = this;
             }
         }
 
@@ -36,6 +37,7 @@ namespace Ants
 
     internal class Ant
     {
+        public Hive Hive { get; set; }
         public Point Position { get; set; }
 
         public List<Point> PreviousePositions { get; set; }
@@ -51,6 +53,7 @@ namespace Ants
             followingPath = false;
             destinationFound = false;
             PathIndex = 0;
+            Hive = null;
         }
 
 

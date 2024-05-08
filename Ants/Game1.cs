@@ -11,8 +11,6 @@ namespace Ants
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        uint gameTick;
-
         Random _random;
         Texture2D Texture_White;
 
@@ -34,7 +32,6 @@ namespace Ants
 
         protected override void Initialize()
         {
-            gameTick = 0;
             _random = new Random();
 
             Grid = new Grid(new Point(100, 100));
@@ -67,14 +64,8 @@ namespace Ants
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            gameTick++;
 
-
-            if (gameTick % 10 == 0)
-            {
-                Ant.MoveAnts(Grid, Ants);
-            }
-            
+            Ant.MoveAnts(Grid, Ants);
 
 
             base.Update(gameTime);

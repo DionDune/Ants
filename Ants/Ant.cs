@@ -24,6 +24,20 @@ namespace Ants
             }
         }
 
+        public List<Point> getCrossingPath(Point chosenPosition)
+        {
+            foreach (List<Point> Path in Paths)
+            {
+                foreach (Point Position in Path)
+                {
+                    if (chosenPosition == Position)
+                        return Path;
+                }
+            }
+
+            return null;
+        }
+
 
         public void enactAI(Grid Grid)
         {

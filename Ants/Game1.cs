@@ -99,15 +99,15 @@ namespace Ants
             foreach (Ant Ant in Hive.Ants)
             {
                 // Path Drawing
-                foreach (Point Pos in Ant.PreviousePositions)
+                foreach (Point Pos in Ant.path.Positions)
                 {
                     _spriteBatch.Draw(Texture_White, new Rectangle(Pos.X * 10, Pos.Y * 10, 10, 10), Color.DarkRed * 0.25F);
                 }
             }
 
-            foreach (List<Point> Path in Hive.Paths)
+            foreach (Path Path in Hive.Paths)
             {
-                foreach (Point Position in Path)
+                foreach (Point Position in Path.Positions)
                 {
                     _spriteBatch.Draw(Texture_White, new Rectangle(Position.X * 10, Position.Y * 10, 10, 10), Color.Blue * 0.25F);
                 }

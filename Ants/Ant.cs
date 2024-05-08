@@ -10,11 +10,11 @@ namespace Ants
     internal class Hive
     {
         public List<Ant> Ants { get; set; }
-        public List<List<Point>> Paths { get; set; }
+        public List<Path> Paths { get; set; }
 
         public Hive(Point Position, int antCount)
         {
-            Paths = new List<List<Point>>();
+            Paths = new List<Path>();
             Ants = new List<Ant>();
 
             for (int i = 0; i < antCount; i++)
@@ -24,13 +24,13 @@ namespace Ants
             }
         }
 
-        public (List<Point>, int) getCrossingPath(Point chosenPosition)
+        public (Path, int) getCrossingPath(Point chosenPosition)
         {
-            foreach (List<Point> Path in Paths)
+            foreach (Path Path in Paths)
             {
-                for (int i = 0; i < Path.Count(); i++)
+                for (int i = 0; i < Path.Positions.Count(); i++)
                 {
-                    if (chosenPosition == Path[i])
+                    if (chosenPosition == Path.Positions[i])
                         return (Path, i);
                 }
             }
@@ -54,7 +54,7 @@ namespace Ants
         public Hive Hive { get; set; }
         public Point Position { get; set; }
 
-        public List<Point> PreviousePositions { get; set; }
+        public Path path { get; set; }
         public bool followingPath { get; set; }
         public bool destinationFound { get; set; }
 
@@ -63,7 +63,7 @@ namespace Ants
         public Ant(Point Pos)
         {
             Position = Pos;
-            PreviousePositions = new List<Point>();
+            path = new Path(new List<Point>(), false);
             followingPath = false;
             destinationFound = false;
             PathIndex = 0;
@@ -83,7 +83,7 @@ namespace Ants
                 Movement = new Point(random.Next(-1, 2), random.Next(-1, 2));
             }
 
-            PreviousePositions.Add(Position);
+            path.Positions.Add(Position);
             Position += Movement;
 
 
@@ -91,17 +91,18 @@ namespace Ants
             if (Grid.Slots[Position.Y][Position.X].isFood)
             {
                 destinationFound = true;
-                Hive.Paths.Add(PreviousePositions);
-                PathIndex = PreviousePositions.Count() - 1;
+                path.isComplete = true;
+                Hive.Paths.Add(path);
+                PathIndex = path.Positions.Count() - 1;
             }
             else
             {
-                (List<Point>, int) crossingPath = Hive.getCrossingPath(Position);
+                (Path, int) crossingPath = Hive.getCrossingPath(Position);
 
                 if (crossingPath.Item1 != null)
                 {
                     destinationFound = true;
-                    PreviousePositions = crossingPath.Item1;
+                    crossingPath.Item1.joinAnt(this);
                     PathIndex = crossingPath.Item2;
                 }
             }
@@ -110,18 +111,18 @@ namespace Ants
         {
             if (PathIndex == 0)
                 followingPath = true;
-            else if (PathIndex == PreviousePositions.Count() - 1)
+            else if (PathIndex == path.Positions.Count() - 1)
                 followingPath = false;
 
 
             if (followingPath)
             {
-                Position = PreviousePositions[PathIndex + 1];
+                Position = path.Positions[PathIndex + 1];
                 PathIndex++;
             }
             else
             {
-                Position = PreviousePositions[PathIndex - 1];
+                Position = path.Positions[PathIndex - 1];
                 PathIndex--;
             }
         }
@@ -150,6 +151,26 @@ namespace Ants
             {
                 RandomMove(Grid);
             }
+        }
+    }
+
+    internal class Path
+    {
+        public List<Point> Positions { get; set; }
+        public int AntCount { get; set; }
+        public bool isComplete { get; set; }
+
+        public Path(List<Point> prevPositions, bool Complete)
+        {
+            Positions = prevPositions;
+            AntCount = 1;
+            isComplete = Complete;
+        }
+
+        public void joinAnt(Ant Ant)
+        {
+            Ant.path = this;
+            AntCount++;
         }
     }
 }

@@ -94,6 +94,16 @@ namespace Ants
                 Hive.Paths.Add(PreviousePositions);
                 PathIndex = PreviousePositions.Count() - 1;
             }
+            else
+            {
+                List<Point> crossingPath = Hive.getCrossingPath(Position);
+
+                if (crossingPath != null)
+                {
+                    PreviousePositions = crossingPath;
+                    destinationFound = true;
+                }
+            }
         }
         public void PathMove()
         {

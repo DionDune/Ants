@@ -24,18 +24,18 @@ namespace Ants
             }
         }
 
-        public List<Point> getCrossingPath(Point chosenPosition)
+        public (List<Point>, int) getCrossingPath(Point chosenPosition)
         {
             foreach (List<Point> Path in Paths)
             {
-                foreach (Point Position in Path)
+                for (int i = 0; i < Path.Count(); i++)
                 {
-                    if (chosenPosition == Position)
-                        return Path;
+                    if (chosenPosition == Path[i])
+                        return (Path, i);
                 }
             }
 
-            return null;
+            return (null, 0);
         }
 
 
@@ -96,12 +96,13 @@ namespace Ants
             }
             else
             {
-                List<Point> crossingPath = Hive.getCrossingPath(Position);
+                (List<Point>, int) crossingPath = Hive.getCrossingPath(Position);
 
-                if (crossingPath != null)
+                if (crossingPath.Item1 != null)
                 {
-                    PreviousePositions = crossingPath;
                     destinationFound = true;
+                    PreviousePositions = crossingPath.Item1;
+                    PathIndex = crossingPath.Item2;
                 }
             }
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -15,7 +16,8 @@ namespace Ants
         Texture2D Texture_White;
 
         Grid Grid;
-        List<Ant> Ants;
+        Hive Hive;
+        //List<Ant> Ants;
 
 
 
@@ -35,16 +37,18 @@ namespace Ants
             _random = new Random();
 
             Grid = new Grid(new Point(100, 100));
-            Ants = new List<Ant>();
+            Hive = new Hive(new Point(50, 50), 50);
 
-            for (int i = 0; i < 500; i++)
+
+            for (int i = 0; i < Grid.Dimentions.X; i++)
             {
-                Ants.Add( new Ant( new Point(50, 50) ) );
+                Grid.Slots[0][i].isFood = true;
+                Grid.Slots.Last()[i].isFood = true;
             }
-
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < Grid.Dimentions.Y; i++)
             {
-                Grid.Slots[_random.Next(0, Grid.Dimentions.Y)][_random.Next(0, Grid.Dimentions.X)].isFood = true;
+                Grid.Slots[i][0].isFood = true;
+                Grid.Slots[i].Last().isFood = true;
             }
 
             base.Initialize();
@@ -65,7 +69,7 @@ namespace Ants
                 Exit();
 
 
-            Ant.MoveAnts(Grid, Ants);
+            Hive.enactAI(Grid);
 
 
             base.Update(gameTime);
@@ -91,10 +95,26 @@ namespace Ants
                 }
             }
 
-            foreach (Ant Ant in Ants)
+
+            foreach (Ant Ant in Hive.Ants)
             {
+                // Path Drawing
+                foreach (Point Pos in Ant.PreviousePositions)
+                {
+                    _spriteBatch.Draw(Texture_White, new Rectangle(Pos.X * 10, Pos.Y * 10, 10, 10), Color.DarkRed * 0.25F);
+                }
+            }
+
+            foreach (Ant Ant in Hive.Ants)
+            {
+                // Ant Drawing
                 if (Ant.destinationFound)
+                {
                     _spriteBatch.Draw(Texture_White, new Rectangle(Ant.Position.X * 10, Ant.Position.Y * 10, 10, 10), Color.Blue);
+
+                    if (!Ant.followingPath)
+                        _spriteBatch.Draw(Texture_White, new Rectangle(Ant.Position.X * 10 + 1, Ant.Position.Y * 10 + 1, 8, 8), Color.Gold);
+                }
                 else
                     _spriteBatch.Draw(Texture_White, new Rectangle(Ant.Position.X * 10, Ant.Position.Y * 10, 10, 10), Color.Red);
             }

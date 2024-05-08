@@ -7,6 +7,33 @@ using Microsoft.Xna.Framework;
 
 namespace Ants
 {
+    internal class Hive
+    {
+        public List<Ant> Ants { get; set; }
+        public List<List<Point>> Paths { get; set; }
+
+        public Hive(Point Position, int antCount)
+        {
+            Paths = new List<List<Point>>();
+            Ants = new List<Ant>();
+
+            for (int i = 0; i < antCount; i++)
+            {
+                Ants.Add(new Ant(Position));
+            }
+        }
+
+
+        public void enactAI(Grid Grid)
+        {
+            foreach (Ant Ant in Ants)
+            {
+                Ant.enactAI(Grid);
+            }
+        }
+    }
+
+
     internal class Ant
     {
         public Point Position { get; set; }
@@ -15,12 +42,15 @@ namespace Ants
         public bool followingPath { get; set; }
         public bool destinationFound { get; set; }
 
+        public int PathIndex;
+
         public Ant(Point Pos)
         {
             Position = Pos;
             PreviousePositions = new List<Point>();
             followingPath = false;
             destinationFound = false;
+            PathIndex = 0;
         }
 
 
@@ -36,27 +66,32 @@ namespace Ants
                 Movement = new Point(random.Next(-1, 2), random.Next(-1, 2));
             }
 
+            PreviousePositions.Add(Position);
             Position += Movement;
+
 
 
             if (Grid.Slots[Position.Y][Position.X].isFood)
                 destinationFound = true;
+            PathIndex = PreviousePositions.Count() - 1;
         }
         public void PathMove()
         {
+            if (PathIndex == 0)
+                followingPath = true;
+            else if (PathIndex == PreviousePositions.Count() - 1)
+                followingPath = false;
+
+
             if (followingPath)
             {
-                if (PreviousePositions.IndexOf(Position) == PreviousePositions.Count() - 1)
-                    followingPath = false;
-                else
-                    Position = PreviousePositions[PreviousePositions.IndexOf(Position) + 1];
+                Position = PreviousePositions[PathIndex + 1];
+                PathIndex++;
             }
             else
             {
-                if (PreviousePositions.IndexOf(Position) < 2)
-                    followingPath = true;
-                else
-                    Position = PreviousePositions[PreviousePositions.IndexOf(Position) - 1];
+                Position = PreviousePositions[PathIndex - 1];
+                PathIndex--;
             }
         }
 
@@ -72,6 +107,17 @@ namespace Ants
                 {
                     Ant.RandomMove(Grid);
                 }
+            }
+        }
+        public void enactAI(Grid Grid)
+        {
+            if (destinationFound)
+            {
+                PathMove();
+            }
+            else
+            {
+                RandomMove(Grid);
             }
         }
     }

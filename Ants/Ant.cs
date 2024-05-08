@@ -73,10 +73,13 @@ namespace Ants
             Position += Movement;
 
 
-
+            // Destination found
             if (Grid.Slots[Position.Y][Position.X].isFood)
+            {
                 destinationFound = true;
-            PathIndex = PreviousePositions.Count() - 1;
+                Hive.Paths.Add(PreviousePositions);
+                PathIndex = PreviousePositions.Count() - 1;
+            }
         }
         public void PathMove()
         {

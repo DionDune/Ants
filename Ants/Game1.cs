@@ -105,15 +105,23 @@ namespace Ants
                 }
             }
 
+            foreach (List<Point> Path in Hive.Paths)
+            {
+                foreach (Point Position in Path)
+                {
+                    _spriteBatch.Draw(Texture_White, new Rectangle(Position.X * 10, Position.Y * 10, 10, 10), Color.Blue * 0.25F);
+                }
+            }
+
             foreach (Ant Ant in Hive.Ants)
             {
                 // Ant Drawing
                 if (Ant.destinationFound)
                 {
-                    _spriteBatch.Draw(Texture_White, new Rectangle(Ant.Position.X * 10, Ant.Position.Y * 10, 10, 10), Color.Blue);
+                    _spriteBatch.Draw(Texture_White, new Rectangle(Ant.Position.X * 10, Ant.Position.Y * 10, 10, 10), Color.Turquoise);
 
-                    if (!Ant.followingPath)
-                        _spriteBatch.Draw(Texture_White, new Rectangle(Ant.Position.X * 10 + 1, Ant.Position.Y * 10 + 1, 8, 8), Color.Gold);
+                    if (Ant.followingPath)
+                        _spriteBatch.Draw(Texture_White, new Rectangle(Ant.Position.X * 10 + 1, Ant.Position.Y * 10 + 1, 8, 8), Color.Purple);
                 }
                 else
                     _spriteBatch.Draw(Texture_White, new Rectangle(Ant.Position.X * 10, Ant.Position.Y * 10, 10, 10), Color.Red);

@@ -96,20 +96,34 @@ namespace Ants
             }
 
 
+            // Rogue Ant Path Drawing
             foreach (Ant Ant in Hive.Ants)
             {
-                // Path Drawing
+                if (!Ant.destinationFound)
                 foreach (Point Pos in Ant.path.Positions)
                 {
                     _spriteBatch.Draw(Texture_White, new Rectangle(Pos.X * 10, Pos.Y * 10, 10, 10), Color.DarkRed * 0.25F);
                 }
             }
 
+            // Complete Path Drawing - Undertone
             foreach (Path Path in Hive.Paths)
             {
-                foreach (Point Position in Path.Positions)
+                foreach (Point Pos in Path.Positions)
                 {
-                    _spriteBatch.Draw(Texture_White, new Rectangle(Position.X * 10, Position.Y * 10, 10, 10), Color.Blue * 0.25F);
+                    float Opacity = 0;
+                    for (int i = 0; i < Path.AntCount; i++)
+                        Opacity = 1 - ((1 - Opacity) * 0.75F);
+                    _spriteBatch.Draw(Texture_White, new Rectangle(Pos.X * 10, Pos.Y * 10, 10, 10), Color.DarkRed * Opacity);
+                }
+            }
+
+            // Complete Path Drawing - Highlight
+            foreach (Path Path in Hive.Paths)
+            {   
+                foreach (Point Pos in Path.Positions)
+                {
+                    _spriteBatch.Draw(Texture_White, new Rectangle(Pos.X * 10, Pos.Y * 10, 10, 10), Color.Blue * 0.25F);
                 }
             }
 

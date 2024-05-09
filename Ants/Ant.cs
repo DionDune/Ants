@@ -41,10 +41,10 @@ namespace Ants
         {
             foreach (Path Path in Paths)
             {
-                for (int i = 0; i < Path.Positions.Count(); i++)
+                int index = Path.Positions.IndexOf(chosenPosition);
+                if (index > -1)
                 {
-                    if (chosenPosition == Path.Positions[i])
-                        return (Path, i);
+                    return (Path, index);
                 }
             }
 

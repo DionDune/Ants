@@ -23,7 +23,7 @@ namespace Ants
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
-            _graphics.PreferredBackBufferWidth = 1800;
+            _graphics.PreferredBackBufferWidth = 1900;
             _graphics.PreferredBackBufferHeight = 1000;
             _graphics.ApplyChanges();
 
@@ -35,8 +35,8 @@ namespace Ants
         {
             _random = new Random();
 
-            Grid = new Grid(new Point(100, 100));
-            Hive = new Hive(new Point(50, 50), 500);
+            Grid = new Grid(new Point(190, 100));
+            Hive = new Hive(new Point(95, 50), 750);
 
 
             for (int i = 0; i < Grid.Dimentions.X; i++)

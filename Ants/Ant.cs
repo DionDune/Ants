@@ -13,13 +13,18 @@ namespace Ants
     {
         public List<Ant> Ants { get; set; }
         public List<Path> Paths { get; set; }
+        public Point Position { get; set; }
+
         public bool returnCall { get; set; }
         public List<Ant> antsReturned { get; set; }
 
-        public Hive(Point Position, int antCount)
+
+        public Hive(Point position, int antCount)
         {
+            Position = position;
             Paths = new List<Path>();
             Ants = new List<Ant>();
+
             returnCall = false;
             antsReturned = new List<Ant>();
 
@@ -29,10 +34,8 @@ namespace Ants
                 Ants.Last().Hive = this;
             }
         }
-        public void triggerRecall()
-        {
-            returnCall = true;
-        }
+
+
 
         public (Path, int) getCrossingPath(Point chosenPosition)
         {
@@ -48,7 +51,10 @@ namespace Ants
             return (null, 0);
         }
 
-
+        public void triggerRecall()
+        {
+            returnCall = true;
+        }
         public void enactAI(Grid Grid)
         {
             foreach (Ant Ant in Ants)

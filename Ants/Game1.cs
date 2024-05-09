@@ -15,6 +15,7 @@ namespace Ants
         Random _random;
         Texture2D Texture_White;
 
+        Settings Settings;
         Grid Grid;
         Hive Hive;
 
@@ -35,8 +36,9 @@ namespace Ants
         {
             _random = new Random();
 
-            Grid = new Grid(new Point(190, 100));
-            Hive = new Hive(new Point(95, 50), 750);
+            Settings = new Settings();
+            Grid = new Grid(Settings.gridSize);
+            Hive = new Hive(Settings.hivePosition, Settings.antCount);
 
 
             for (int i = 0; i < Grid.Dimentions.X; i++)

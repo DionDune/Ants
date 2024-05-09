@@ -36,7 +36,7 @@ namespace Ants
             _random = new Random();
 
             Grid = new Grid(new Point(100, 100));
-            Hive = new Hive(new Point(50, 50), 8000);
+            Hive = new Hive(new Point(50, 50), 500);
 
 
             for (int i = 0; i < Grid.Dimentions.X; i++)
@@ -133,6 +133,7 @@ namespace Ants
                 }
             }
 
+            // Ant Drawing
             foreach (Ant Ant in Hive.Ants)
             {
                 // Ant Drawing

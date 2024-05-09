@@ -72,6 +72,7 @@ namespace Ants
                     Ant.destinationFound = false;
                     Ant.PathIndex = 0;
                     Ant.path = new Path(new List<Point>(), false);
+                    Ant.returned = false;
                 }
 
                 returnCall = false;
@@ -89,6 +90,7 @@ namespace Ants
         public Path path { get; set; }
         public bool followingPath { get; set; }
         public bool destinationFound { get; set; }
+        public bool returned { get; set; }
 
         public int PathIndex;
 
@@ -96,10 +98,13 @@ namespace Ants
         {
             Position = Pos;
             path = new Path(new List<Point>(), false);
+
             followingPath = false;
             destinationFound = false;
             PathIndex = 0;
+
             Hive = null;
+            returned = false;
         }
 
 
@@ -141,16 +146,25 @@ namespace Ants
         }
         public void PathMove()
         {
+            if (Hive.returnCall && returned)
+                return;
+
             if (PathIndex == 0)
+                // Could change this to Hives Position for accuracy. Currently Ants huddle near it.
             {
                 followingPath = true;
 
+
+                // Ant returns to hive
                 if (Hive.returnCall)
                 {
                     if (!Hive.antsReturned.Contains(this))
+                    {
                         Hive.antsReturned.Add(this);
-                    return;
+                        returned = true;
+                    }
                 }
+
             }
             else if (PathIndex == path.Positions.Count() - 1)
                 followingPath = false;

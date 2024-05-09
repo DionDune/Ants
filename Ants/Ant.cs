@@ -77,8 +77,6 @@ namespace Ants
                 returnCall = false;
                 antsReturned = new List<Ant>();
             }
-
-            Debug.WriteLine($"{Ants.Count()} : {antsReturned.Count()}");
         }
     }
 

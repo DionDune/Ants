@@ -68,7 +68,7 @@ namespace Ants
                 Exit();
             if (Keyboard.GetState().IsKeyDown(Keys.R))
             {
-                Hive.returnCall = true;
+                Hive.triggerRecall();
             }
 
 

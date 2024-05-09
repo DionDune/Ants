@@ -29,7 +29,7 @@ namespace Ants
                 Ants.Last().Hive = this;
             }
         }
-        public void Regenerate()
+        public void triggerRecall()
         {
             returnCall = true;
         }

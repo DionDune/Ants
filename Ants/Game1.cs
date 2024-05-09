@@ -17,7 +17,6 @@ namespace Ants
 
         Grid Grid;
         Hive Hive;
-        //List<Ant> Ants;
 
 
 
@@ -37,7 +36,7 @@ namespace Ants
             _random = new Random();
 
             Grid = new Grid(new Point(100, 100));
-            Hive = new Hive(new Point(50, 50), 50);
+            Hive = new Hive(new Point(50, 50), 8000);
 
 
             for (int i = 0; i < Grid.Dimentions.X; i++)
@@ -67,6 +66,10 @@ namespace Ants
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            if (Keyboard.GetState().IsKeyDown(Keys.R))
+            {
+                Hive.returnCall = true;
+            }
 
 
             Hive.enactAI(Grid);
@@ -77,7 +80,10 @@ namespace Ants
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            if (Hive.returnCall)
+                GraphicsDevice.Clear(Color.Purple);
+            else
+                GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin();
 

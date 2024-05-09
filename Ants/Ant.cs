@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
@@ -11,17 +13,25 @@ namespace Ants
     {
         public List<Ant> Ants { get; set; }
         public List<Path> Paths { get; set; }
+        public bool returnCall { get; set; }
+        public List<Ant> antsReturned { get; set; }
 
         public Hive(Point Position, int antCount)
         {
             Paths = new List<Path>();
             Ants = new List<Ant>();
+            returnCall = false;
+            antsReturned = new List<Ant>();
 
             for (int i = 0; i < antCount; i++)
             {
                 Ants.Add(new Ant(Position));
                 Ants.Last().Hive = this;
             }
+        }
+        public void Regenerate()
+        {
+            returnCall = true;
         }
 
         public (Path, int) getCrossingPath(Point chosenPosition)
@@ -45,6 +55,24 @@ namespace Ants
             {
                 Ant.enactAI(Grid);
             }
+
+            // RETURN CALL LOGIC
+            if (antsReturned.Count() == Ants.Count())
+            {
+                Paths.Clear();
+
+                foreach (Ant Ant in Ants)
+                {
+                    Ant.destinationFound = false;
+                    Ant.PathIndex = 0;
+                    Ant.path = new Path(new List<Point>(), false);
+                }
+
+                returnCall = false;
+                antsReturned = new List<Ant>();
+            }
+
+            Debug.WriteLine($"{Ants.Count()} : {antsReturned.Count()}");
         }
     }
 
@@ -110,7 +138,16 @@ namespace Ants
         public void PathMove()
         {
             if (PathIndex == 0)
+            {
                 followingPath = true;
+
+                if (Hive.returnCall)
+                {
+                    if (!Hive.antsReturned.Contains(this))
+                        Hive.antsReturned.Add(this);
+                    return;
+                }
+            }
             else if (PathIndex == path.Positions.Count() - 1)
                 followingPath = false;
 

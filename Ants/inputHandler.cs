@@ -9,6 +9,16 @@ namespace Ants
 {
     internal class inputHandler
     {
+        /// <summary>
+        /// 
+        /// Controls:
+        ///     R - Trigger Recall
+        ///     G - Toggle Grid rendering
+        ///     A - Toggle Ant rendering
+        /// 
+        /// </summary>
+
+
         private List<Keys> PreviouseKeys { get; set; }
         private List<Keys> NewKeys { get; set; }
         

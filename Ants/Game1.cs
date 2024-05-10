@@ -66,6 +66,31 @@ namespace Ants
             Texture_White.SetData(new Color[1] { Color.White });
         }
 
+
+
+
+        void DrawLine(Vector2 point, float Length, float Angle, Color Color, float Thickness)
+        {
+            var origin = new Vector2(0f, 0.5f);
+            var scale = new Vector2(Length, Thickness);
+
+            _spriteBatch.Draw(Texture_White, point, null, Color, Angle, origin, scale, SpriteEffects.None, 0);
+        }
+        void DrawLineBetween(Vector2 Point1, Vector2 Point2, Color Color, float Thickness)
+        {
+            Vector2 DistanceVector = new Vector2(
+                Point2.X - Point1.X,
+                Point2.Y - Point1.Y
+                );
+            float Angle = (float)Math.Atan2(DistanceVector.Y, DistanceVector.X);
+            float DistanceValue = Math.Abs(Vector2.Distance(Point1, Point2));
+
+            DrawLine(Point1, DistanceValue, Angle, Color, Thickness);
+        }
+
+
+
+
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))

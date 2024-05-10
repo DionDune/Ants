@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace Ants
 {
-    internal class Grid
+    public class Grid
     {
         public List<List<GridSlot>> Slots { get; set; }
         public Point Dimentions { get; set; }
@@ -36,7 +36,7 @@ namespace Ants
         }
     }
 
-    internal class GridSlot
+    public class GridSlot
     {
         public Point Position { get; set; }
         public bool isFood { get; set; }

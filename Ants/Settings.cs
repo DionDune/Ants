@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace Ants
 {
-    internal class Settings
+    public class Settings
     {
         public Point gridSize { get; set; }
         public Point hivePosition { get; set; }

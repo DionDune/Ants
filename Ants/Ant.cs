@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 
 namespace Ants
 {
-    internal class Hive
+    public class Hive
     {
         public List<Ant> Ants { get; set; }
         public List<Path> Paths { get; set; }
@@ -82,7 +82,7 @@ namespace Ants
     }
 
 
-    internal class Ant
+    public class Ant
     {
         public Hive Hive { get; set; }
         public Point Position { get; set; }
@@ -209,7 +209,7 @@ namespace Ants
         }
     }
 
-    internal class Path
+    public class Path
     {
         public List<Point> Positions { get; set; }
         public int AntCount { get; set; }

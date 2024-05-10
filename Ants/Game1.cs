@@ -15,9 +15,10 @@ namespace Ants
         Random _random;
         Texture2D Texture_White;
 
-        Settings Settings;
+        public Settings Settings;
+        inputHandler inputHandler;
         Grid Grid;
-        Hive Hive;
+        public Hive Hive;
 
 
 
@@ -37,6 +38,7 @@ namespace Ants
             _random = new Random();
 
             Settings = new Settings();
+            inputHandler = new inputHandler();
             Grid = new Grid(Settings.gridSize);
             Hive = new Hive(Settings.hivePosition, Settings.antCount);
 
@@ -68,11 +70,9 @@ namespace Ants
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            if (Keyboard.GetState().IsKeyDown(Keys.R))
-            {
-                Hive.triggerRecall();
-            }
 
+
+            inputHandler.enact(this);
 
             Hive.enactAI(Grid);
 

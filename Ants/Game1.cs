@@ -94,7 +94,8 @@ namespace Ants
             {
                 foreach(GridSlot Slot in Row)
                 {
-                    _spriteBatch.Draw(Texture_White, new Rectangle(Slot.Position.X * 10 + 2, Slot.Position.Y * 10 + 2, 6, 6), Color.Gray);
+                    if (Settings.renderGrid)
+                        _spriteBatch.Draw(Texture_White, new Rectangle(Slot.Position.X * 10 + 2, Slot.Position.Y * 10 + 2, 6, 6), Color.Gray);
 
                     if (Slot.isFood)
                     {
@@ -105,50 +106,57 @@ namespace Ants
 
 
             // Rogue Ant Path Drawing
-            foreach (Ant Ant in Hive.Ants)
-            {
-                if (!Ant.destinationFound)
-                foreach (Point Pos in Ant.path.Positions)
+            if (Settings.renderRougePaths)
+                foreach (Ant Ant in Hive.Ants)
                 {
-                    _spriteBatch.Draw(Texture_White, new Rectangle(Pos.X * 10, Pos.Y * 10, 10, 10), Color.DarkRed * 0.25F);
+                    if (!Ant.destinationFound)
+                    foreach (Point Pos in Ant.path.Positions)
+                    {
+                        _spriteBatch.Draw(Texture_White, new Rectangle(Pos.X * 10, Pos.Y * 10, 10, 10), Color.DarkRed * 0.25F);
+                    }
                 }
-            }
 
-            // Complete Path Drawing - Undertone
-            foreach (Path Path in Hive.Paths)
+            
+            if (Settings.renderCompletePaths)
             {
-                foreach (Point Pos in Path.Positions)
+                // Complete Path Drawing - Undertone
+                foreach (Path Path in Hive.Paths)
                 {
-                    float Opacity = 0;
-                    for (int i = 0; i < Path.AntCount; i++)
-                        Opacity = 1 - ((1 - Opacity) * 0.75F);
-                    _spriteBatch.Draw(Texture_White, new Rectangle(Pos.X * 10, Pos.Y * 10, 10, 10), Color.DarkRed * Opacity);
+                    foreach (Point Pos in Path.Positions)
+                    {
+                        float Opacity = 0;
+                        for (int i = 0; i < Path.AntCount; i++)
+                            Opacity = 1 - ((1 - Opacity) * 0.75F);
+                        _spriteBatch.Draw(Texture_White, new Rectangle(Pos.X * 10, Pos.Y * 10, 10, 10), Color.DarkRed * Opacity);
+                    }
                 }
-            }
 
-            // Complete Path Drawing - Highlight
-            foreach (Path Path in Hive.Paths)
-            {   
-                foreach (Point Pos in Path.Positions)
+                // Complete Path Drawing - Highlight
+                foreach (Path Path in Hive.Paths)
                 {
-                    _spriteBatch.Draw(Texture_White, new Rectangle(Pos.X * 10, Pos.Y * 10, 10, 10), Color.Blue * 0.25F);
+                    foreach (Point Pos in Path.Positions)
+                    {
+                        _spriteBatch.Draw(Texture_White, new Rectangle(Pos.X * 10, Pos.Y * 10, 10, 10), Color.Blue * 0.25F);
+                    }
                 }
             }
+            
 
             // Ant Drawing
-            foreach (Ant Ant in Hive.Ants)
-            {
-                // Ant Drawing
-                if (Ant.destinationFound)
+            if (Settings.renderAnts)
+                foreach (Ant Ant in Hive.Ants)
                 {
-                    _spriteBatch.Draw(Texture_White, new Rectangle(Ant.Position.X * 10, Ant.Position.Y * 10, 10, 10), Color.Turquoise);
+                    // Ant Drawing
+                    if (Ant.destinationFound)
+                    {
+                        _spriteBatch.Draw(Texture_White, new Rectangle(Ant.Position.X * 10, Ant.Position.Y * 10, 10, 10), Color.Turquoise);
 
-                    if (Ant.followingPath)
-                        _spriteBatch.Draw(Texture_White, new Rectangle(Ant.Position.X * 10 + 1, Ant.Position.Y * 10 + 1, 8, 8), Color.Purple);
+                        if (Ant.followingPath)
+                            _spriteBatch.Draw(Texture_White, new Rectangle(Ant.Position.X * 10 + 1, Ant.Position.Y * 10 + 1, 8, 8), Color.Purple);
+                    }
+                    else
+                        _spriteBatch.Draw(Texture_White, new Rectangle(Ant.Position.X * 10, Ant.Position.Y * 10, 10, 10), Color.Red);
                 }
-                else
-                    _spriteBatch.Draw(Texture_White, new Rectangle(Ant.Position.X * 10, Ant.Position.Y * 10, 10, 10), Color.Red);
-            }
 
             _spriteBatch.Draw(Texture_White, new Rectangle(Hive.Position.X * 10, Hive.Position.Y * 10, 10, 10), Color.HotPink);
 

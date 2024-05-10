@@ -13,12 +13,22 @@ namespace Ants
         public Point hivePosition { get; set; }
         public int antCount { get; set; }
 
+        public bool renderGrid { get; set; }
+        public bool renderAnts { get; set; }
+        public bool renderRougePaths { get; set; }
+        public bool renderCompletePaths { get; set; }
+
 
         public Settings()
         {
             gridSize = new Point(190, 100);
             hivePosition = new Point(95, 50);
             antCount = 750;
+
+            renderGrid = true;
+            renderAnts = true;
+            renderRougePaths = true;
+            renderCompletePaths = true;
         }
     }
 }

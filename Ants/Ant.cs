@@ -138,9 +138,7 @@ namespace Ants
 
                 if (crossingPath.Item1 != null)
                 {
-                    destinationFound = true;
-                    crossingPath.Item1.joinAnt(this);
-                    PathIndex = crossingPath.Item2;
+                    crossingPath.Item1.joinAnt(this, crossingPath.Item2);
                 }
             }
         }
@@ -149,6 +147,7 @@ namespace Ants
             if (Hive.returnCall && returned)
                 return;
 
+            // Start Slot
             if (PathIndex == 0)
                 // Could change this to Hives Position for accuracy. Currently Ants huddle near it.
             {
@@ -165,9 +164,20 @@ namespace Ants
                     }
                 }
 
+                // Ants abandon destitue paths
+                if (path.isDestitute)
+                {
+                    path.leaveAnt(this);
+                    return;
+                }
+
             }
+            // End Slot
             else if (PathIndex == path.Positions.Count() - 1)
+            {
                 followingPath = false;
+            }
+                
 
 
             if (followingPath)
@@ -214,18 +224,37 @@ namespace Ants
         public List<Point> Positions { get; set; }
         public int AntCount { get; set; }
         public bool isComplete { get; set; }
+        public bool isDestitute { get; set; }
 
         public Path(List<Point> prevPositions, bool Complete)
         {
             Positions = prevPositions;
             AntCount = 1;
             isComplete = Complete;
+            isDestitute = false;
         }
 
-        public void joinAnt(Ant Ant)
+        public bool joinAnt(Ant Ant, int index)
         {
-            Ant.path = this;
-            AntCount++;
+            if (!isDestitute)
+            {
+                Ant.path = this;
+                Ant.destinationFound = true;
+                Ant.PathIndex = index;
+                AntCount++;
+
+                return true;
+            }
+
+            return false;
+        }
+        public void leaveAnt(Ant Ant)
+        {
+            Ant.path = new Path(new List<Point>(), false);
+            Ant.destinationFound = false;
+            Ant.followingPath = false;
+            Ant.PathIndex = 0;
+            AntCount--;
         }
     }
 }

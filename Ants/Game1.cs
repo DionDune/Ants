@@ -115,6 +115,8 @@ namespace Ants
             _spriteBatch.Begin();
 
 
+
+            // Grid Drawing
             foreach (List<GridSlot> Row in Grid.Slots)
             {
                 foreach(GridSlot Slot in Row)
@@ -141,31 +143,44 @@ namespace Ants
                     }
                 }
 
-            
+
             if (Settings.renderCompletePaths)
             {
-                // Complete Path Drawing - Undertone
-                foreach (Path Path in Hive.Paths)
-                {
-                    foreach (Point Pos in Path.Positions)
+                if (Settings.renderPathSquares)
+                    // Complete Path Drawing - Undertone
+                    foreach (Path Path in Hive.Paths)
                     {
-                        float Opacity = 0;
-                        for (int i = 0; i < Path.AntCount; i++)
-                            Opacity = 1 - ((1 - Opacity) * 0.75F);
-                        _spriteBatch.Draw(Texture_White, new Rectangle(Pos.X * 10, Pos.Y * 10, 10, 10), Color.DarkRed * Opacity);
+                        foreach (Point Pos in Path.Positions)
+                        {
+                            float Opacity = 0;
+                            for (int i = 0; i < Path.AntCount; i++)
+                                Opacity = 1 - ((1 - Opacity) * 0.75F);
+                            _spriteBatch.Draw(Texture_White, new Rectangle(Pos.X * 10, Pos.Y * 10, 10, 10), Color.DarkRed * Opacity);
+                        }
                     }
-                }
 
                 // Complete Path Drawing - Highlight
                 foreach (Path Path in Hive.Paths)
                 {
                     foreach (Point Pos in Path.Positions)
                     {
-                        _spriteBatch.Draw(Texture_White, new Rectangle(Pos.X * 10, Pos.Y * 10, 10, 10), Color.Blue * 0.25F);
+                        if (Settings.renderPathSquares)
+                            _spriteBatch.Draw(Texture_White, new Rectangle(Pos.X * 10, Pos.Y * 10, 10, 10), Color.Blue * 0.25F);
+
+
+                        if (Settings.renderPathLines)
+                            if (Path.Positions.IndexOf(Pos) < Path.Positions.Count() - 1)
+                            {
+                                DrawLineBetween(new Vector2(Pos.X * 10 + 5, Pos.Y * 10 + 5),
+                                                new Vector2(Path.Positions[Path.Positions.IndexOf(Pos) + 1].X * 10 + 5, 
+                                                            Path.Positions[Path.Positions.IndexOf(Pos) + 1].Y * 10 + 5),
+                                                Color.Blue, 5
+                                                );
+                            }
                     }
                 }
             }
-            
+
 
             // Ant Drawing
             if (Settings.renderAnts)
@@ -183,7 +198,9 @@ namespace Ants
                         _spriteBatch.Draw(Texture_White, new Rectangle(Ant.Position.X * 10, Ant.Position.Y * 10, 10, 10), Color.Red);
                 }
 
+            // Hive Position Drawing
             _spriteBatch.Draw(Texture_White, new Rectangle(Hive.Position.X * 10, Hive.Position.Y * 10, 10, 10), Color.HotPink);
+
 
 
             _spriteBatch.End();

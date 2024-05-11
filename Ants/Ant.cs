@@ -13,6 +13,7 @@ namespace Ants
     {
         public List<Ant> Ants { get; set; }
         public List<Path> Paths { get; set; }
+        public List<Path> DestitutePaths { get; set; }
         public Point Position { get; set; }
 
         public bool returnCall { get; set; }
@@ -23,6 +24,7 @@ namespace Ants
         {
             Position = position;
             Paths = new List<Path>();
+            DestitutePaths = new List<Path>();
             Ants = new List<Ant>();
 
             returnCall = false;
@@ -71,7 +73,7 @@ namespace Ants
                 {
                     Ant.destinationFound = false;
                     Ant.PathIndex = 0;
-                    Ant.path = new Path(new List<Point>(), false);
+                    Ant.path = new Path(this, new List<Point>(), false);
                     Ant.returned = false;
                 }
 
@@ -97,7 +99,7 @@ namespace Ants
         public Ant(Point Pos)
         {
             Position = Pos;
-            path = new Path(new List<Point>(), false);
+            path = new Path(Hive, new List<Point>(), false);
 
             followingPath = false;
             destinationFound = false;
@@ -221,17 +223,19 @@ namespace Ants
 
     public class Path
     {
+        public Hive Hive { get; set; }
         public List<Point> Positions { get; set; }
         public int AntCount { get; set; }
         public bool isComplete { get; set; }
         public bool isDestitute { get; set; }
 
-        public Path(List<Point> prevPositions, bool Complete)
+        public Path(Hive Hive, List<Point> prevPositions, bool Complete)
         {
             Positions = prevPositions;
             AntCount = 1;
             isComplete = Complete;
             isDestitute = false;
+            Hive = null;
         }
 
         public bool joinAnt(Ant Ant, int index)
@@ -250,11 +254,22 @@ namespace Ants
         }
         public void leaveAnt(Ant Ant)
         {
-            Ant.path = new Path(new List<Point>(), false);
+            Ant.path = new Path(Hive, new List<Point>(), false);
             Ant.destinationFound = false;
             Ant.followingPath = false;
             Ant.PathIndex = 0;
             AntCount--;
+
+            handleDestitution();
+        }
+
+        private void handleDestitution()
+        {
+            if (isDestitute && AntCount == 0)
+            {
+                Hive.DestitutePaths.Add(this);
+                Hive.DestitutePaths.Remove(this);
+            }
         }
     }
 }

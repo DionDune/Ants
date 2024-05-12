@@ -43,16 +43,7 @@ namespace Ants
             Hive = new Hive(Settings.hivePosition, Settings.antCount);
 
 
-            for (int i = 0; i < Grid.Dimentions.X; i++)
-            {
-                Grid.Slots[0][i].isFood = true;
-                Grid.Slots.Last()[i].isFood = true;
-            }
-            for (int i = 0; i < Grid.Dimentions.Y; i++)
-            {
-                Grid.Slots[i][0].isFood = true;
-                Grid.Slots[i].Last().isFood = true;
-            }
+            
 
             base.Initialize();
         }

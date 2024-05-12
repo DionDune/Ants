@@ -35,6 +35,19 @@ namespace Ants
                 }
             }
 
+            // Wall Slots
+            for (int i = 0; i < Dimentions.X; i++)
+            {
+                Slots[0][i].isFood = true;
+                Slots.Last()[i].isFood = true;
+            }
+            for (int i = 0; i < Dimentions.Y; i++)
+            {
+                Slots[i][0].isFood = true;
+                Slots[i].Last().isFood = true;
+            }
+
+            // Random Slots
             if (Settings.gridIsRandom)
                 for (int i = 0; i < Settings.gridFoodSlotsCount; i++)
                 {

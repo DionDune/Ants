@@ -17,11 +17,12 @@ namespace Ants
         {
             Dimentions = Settings.gridSize;
 
-            GenerateGrid(Settings.foodCapacity);
+            GenerateGrid(Settings);
         }
 
-        private void GenerateGrid(int foodCount)
+        private void GenerateGrid(Settings Settings)
         {
+            Random _random = new Random();
             Slots = new List<List<GridSlot>>();
 
             for (int y = 0; y < Dimentions.Y; y++)
@@ -30,9 +31,21 @@ namespace Ants
 
                 for (int x = 0; x < Dimentions.X; x++)
                 {
-                    Slots.Last().Add(new GridSlot( new Point(x, y), foodCount ) );
+                    Slots.Last().Add(new GridSlot( new Point(x, y), Settings.foodSlotCapacity ) );
                 }
             }
+
+            if (Settings.gridIsRandom)
+                for (int i = 0; i < Settings.gridFoodSlotsCount; i++)
+                {
+                    Point SlotPos = new Point(
+                        _random.Next(0, Dimentions.X),
+                        _random.Next(0, Dimentions.Y)
+                        );
+
+                    if (SlotPos != Settings.hivePosition)
+                        Slots[SlotPos.Y][SlotPos.X].isFood = true;
+                }
         }
     }
 

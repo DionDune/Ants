@@ -12,6 +12,7 @@ namespace Ants
         public Point gridSize { get; set; }
         public Point hivePosition { get; set; }
         public int antCount { get; set; }
+        public int foodCapacity { get; set; }
 
         public bool renderGrid { get; set; }
         public bool renderAnts { get; set; }
@@ -26,6 +27,7 @@ namespace Ants
             gridSize = new Point(190, 100);
             hivePosition = new Point(95, 50);
             antCount = 750;
+            foodCapacity = 20;
 
             renderGrid = true;
             renderAnts = true;

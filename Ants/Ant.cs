@@ -129,9 +129,11 @@ namespace Ants
             // Destination found
             if (Grid.Slots[Position.Y][Position.X].isFood)
             {
-                destinationFound = true;
                 path.isComplete = true;
+                path.FoodSlot = Grid.Slots[Position.Y][Position.X];
+                path.Hive = Hive;
                 Hive.Paths.Add(path);
+                destinationFound = true;
                 PathIndex = path.Positions.Count() - 1;
             }
             else
@@ -177,6 +179,8 @@ namespace Ants
             // End Slot
             else if (PathIndex == path.Positions.Count() - 1)
             {
+                path.takeFood();
+
                 followingPath = false;
             }
                 
@@ -225,6 +229,7 @@ namespace Ants
     {
         public Hive Hive { get; set; }
         public List<Point> Positions { get; set; }
+        public GridSlot FoodSlot { get; set; }
         public int AntCount { get; set; }
         public bool isComplete { get; set; }
         public bool isDestitute { get; set; }
@@ -232,6 +237,7 @@ namespace Ants
         public Path(Hive Hive, List<Point> prevPositions, bool Complete)
         {
             Positions = prevPositions;
+            FoodSlot = null;
             AntCount = 1;
             isComplete = Complete;
             isDestitute = false;
@@ -268,8 +274,19 @@ namespace Ants
             if (isDestitute && AntCount == 0)
             {
                 Hive.DestitutePaths.Add(this);
-                Hive.DestitutePaths.Remove(this);
+                Hive.Paths.Remove(this);
             }
+        }
+        public void takeFood()
+        {
+            FoodSlot.foodCount--;
+
+            if (FoodSlot.foodCount <= 0)
+            {
+                isDestitute = true;
+                FoodSlot.isFood = false;
+            }
+                
         }
     }
 }

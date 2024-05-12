@@ -13,14 +13,14 @@ namespace Ants
         public Point Dimentions { get; set; }
 
 
-        public Grid(Point dimentions)
+        public Grid(Point dimentions, int foodCount)
         {
             Dimentions = dimentions;
 
-            GenerateGrid();
+            GenerateGrid(foodCount);
         }
 
-        private void GenerateGrid()
+        private void GenerateGrid(int foodCount)
         {
             Slots = new List<List<GridSlot>>();
 
@@ -30,7 +30,7 @@ namespace Ants
 
                 for (int x = 0; x < Dimentions.X; x++)
                 {
-                    Slots.Last().Add(new GridSlot( new Point(x, y) ) );
+                    Slots.Last().Add(new GridSlot( new Point(x, y), foodCount ) );
                 }
             }
         }
@@ -42,9 +42,10 @@ namespace Ants
         public bool isFood { get; set; }
         public int foodCount { get; set; }
 
-        public GridSlot(Point position)
+        public GridSlot(Point position, int FoodCapacity)
         {
             Position = position;
+            foodCount = FoodCapacity;
         }
     }
 }

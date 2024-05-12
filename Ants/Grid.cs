@@ -13,11 +13,11 @@ namespace Ants
         public Point Dimentions { get; set; }
 
 
-        public Grid(Point dimentions, int foodCount)
+        public Grid(Settings Settings)
         {
-            Dimentions = dimentions;
+            Dimentions = Settings.gridSize;
 
-            GenerateGrid(foodCount);
+            GenerateGrid(Settings.foodCapacity);
         }
 
         private void GenerateGrid(int foodCount)

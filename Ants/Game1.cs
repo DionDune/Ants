@@ -39,7 +39,7 @@ namespace Ants
 
             Settings = new Settings();
             inputHandler = new inputHandler();
-            Grid = new Grid(Settings.gridSize, Settings.foodCapacity);
+            Grid = new Grid(Settings);
             Hive = new Hive(Settings.hivePosition, Settings.antCount);
 
 

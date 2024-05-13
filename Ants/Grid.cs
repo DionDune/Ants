@@ -61,9 +61,10 @@ namespace Ants
                 }
 
             // Assign ALL Slots as food
-            foreach (List<GridSlot> Row in Slots)
-                foreach (GridSlot Slot in Row)
-                    Slot.isFood = true;
+            if (Settings.gridIsFilled)
+                foreach (List<GridSlot> Row in Slots)
+                    foreach (GridSlot Slot in Row)
+                        Slot.isFood = true;
         }
     }
 

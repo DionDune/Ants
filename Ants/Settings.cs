@@ -14,6 +14,7 @@ namespace Ants
         public int antCount { get; set; }
 
         public bool gridIsRandom { get; set; }
+        public bool gridIsFilled { get; set; }
         public int foodSlotCapacity { get; set; }
         public int gridFoodSlotsCount { get; set; }
 
@@ -33,6 +34,7 @@ namespace Ants
             foodSlotCapacity = 20;
 
             gridIsRandom = true;
+            gridIsFilled = false;
             gridFoodSlotsCount = 500;
 
             renderGrid = false;

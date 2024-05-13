@@ -25,6 +25,7 @@ namespace Ants
             Random _random = new Random();
             Slots = new List<List<GridSlot>>();
 
+            // Create grid
             for (int y = 0; y < Dimentions.Y; y++)
             {
                 Slots.Add(new List<GridSlot>());
@@ -35,7 +36,7 @@ namespace Ants
                 }
             }
 
-            // Wall Slots
+            // Assign Wall Slots as food
             for (int i = 0; i < Dimentions.X; i++)
             {
                 Slots[0][i].isFood = true;
@@ -47,7 +48,7 @@ namespace Ants
                 Slots[i].Last().isFood = true;
             }
 
-            // Random Slots
+            // Assign Random Slots as food
             if (Settings.gridIsRandom)
                 for (int i = 0; i < Settings.gridFoodSlotsCount; i++)
                 {
@@ -56,9 +57,13 @@ namespace Ants
                         _random.Next(0, Dimentions.Y)
                         );
 
-                    if (SlotPos != Settings.hivePosition)
-                        Slots[SlotPos.Y][SlotPos.X].isFood = true;
+                    Slots[SlotPos.Y][SlotPos.X].isFood = true;
                 }
+
+            // Assign ALL Slots as food
+            foreach (List<GridSlot> Row in Slots)
+                foreach (GridSlot Slot in Row)
+                    Slot.isFood = true;
         }
     }
 

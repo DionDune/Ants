@@ -105,7 +105,7 @@ namespace Ants
         public Ant(Point Pos)
         {
             Position = Pos;
-            path = new Path(Hive, new List<Point>(), false);
+            path = new Path(Hive, new List<Point>() { Position }, false);
 
             followingPath = false;
             destinationFound = false;
@@ -159,7 +159,6 @@ namespace Ants
 
             // Start Slot
             if (PathIndex == 0)
-                // Could change this to Hives Position for accuracy. Currently Ants huddle near it.
             {
                 followingPath = true;
 

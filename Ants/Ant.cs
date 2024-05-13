@@ -56,6 +56,12 @@ namespace Ants
         public void triggerRecall()
         {
             returnCall = true;
+
+            foreach (Ant Ant in Ants)
+            {
+                Ant.followingPath = false;
+                //Ant.destinationFound = false;
+            }
         }
         public void enactAI(Grid Grid)
         {
@@ -72,6 +78,7 @@ namespace Ants
                 foreach (Ant Ant in Ants)
                 {
                     Ant.destinationFound = false;
+                    Ant.followingPath = false;
                     Ant.PathIndex = 0;
                     Ant.path = new Path(this, new List<Point>(), false);
                     Ant.returned = false;
@@ -186,12 +193,12 @@ namespace Ants
                 
 
 
-            if (followingPath)
+            if (followingPath && path.Positions.Count() > 1)
             {
                 Position = path.Positions[PathIndex + 1];
                 PathIndex++;
             }
-            else
+            else if (path.Positions.Count() > 1)
             {
                 Position = path.Positions[PathIndex - 1];
                 PathIndex--;

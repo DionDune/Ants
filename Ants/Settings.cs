@@ -35,7 +35,7 @@ namespace Ants
             gridIsRandom = true;
             gridFoodSlotsCount = 500;
 
-            renderGrid = true;
+            renderGrid = false;
             renderAnts = true;
             renderRougePaths = true;
             renderCompletePaths = true;

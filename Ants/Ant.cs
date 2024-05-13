@@ -171,6 +171,7 @@ namespace Ants
                     {
                         Hive.antsReturned.Add(this);
                         returned = true;
+                        return;
                     }
                 }
 

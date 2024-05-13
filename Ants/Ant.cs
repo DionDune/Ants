@@ -60,7 +60,6 @@ namespace Ants
             foreach (Ant Ant in Ants)
             {
                 Ant.followingPath = false;
-                //Ant.destinationFound = false;
             }
         }
         public void enactAI(Grid Grid)
@@ -198,7 +197,7 @@ namespace Ants
                 Position = path.Positions[PathIndex + 1];
                 PathIndex++;
             }
-            else if (path.Positions.Count() > 1)
+            else if (path.Positions.Count() > 1 && PathIndex > 0)
             {
                 Position = path.Positions[PathIndex - 1];
                 PathIndex--;

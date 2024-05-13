@@ -94,6 +94,7 @@ namespace Ants
     {
         public Hive Hive { get; set; }
         public Point Position { get; set; }
+        public bool hasFood { get; set; }
 
         public Path path { get; set; }
         public bool followingPath { get; set; }
@@ -106,6 +107,7 @@ namespace Ants
         {
             Position = Pos;
             path = new Path(Hive, new List<Point>() { Position }, false);
+            hasFood = false;
 
             followingPath = false;
             destinationFound = false;
@@ -138,6 +140,8 @@ namespace Ants
                 path.isComplete = true;
                 path.FoodSlot = Grid.Slots[Position.Y][Position.X];
                 path.Hive = Hive;
+                path.takeFood(this);
+
                 Hive.Paths.Add(path);
                 destinationFound = true;
                 PathIndex = path.Positions.Count() - 1;
@@ -154,14 +158,18 @@ namespace Ants
         }
         public void PathMove()
         {
+            path.firstSlotHandler(this);
+
             if (Hive.returnCall && returned)
                 return;
 
             // Start Slot
             if (PathIndex == 0)
             {
-                followingPath = true;
+                path.firstSlotHandler(this);
 
+                followingPath = true;
+                hasFood = false;
 
                 // Ant returns to hive
                 if (Hive.returnCall)
@@ -180,16 +188,13 @@ namespace Ants
                     path.leaveAnt(this);
                     return;
                 }
-
             }
             // End Slot
             else if (PathIndex == path.Positions.Count() - 1)
             {
-                path.takeFood();
-
-                followingPath = false;
+                path.lastSlotHandler(this);
             }
-                
+
 
 
             if (followingPath && path.Positions.Count() > 1)
@@ -229,6 +234,8 @@ namespace Ants
                 RandomMove(Grid);
             }
         }
+
+
     }
 
     public class Path
@@ -283,16 +290,28 @@ namespace Ants
                 Hive.Paths.Remove(this);
             }
         }
-        public void takeFood()
+        public void takeFood(Ant Ant)
         {
             FoodSlot.foodCount--;
+
+            if (FoodSlot.foodCount > 0)
+                Ant.hasFood = true;
 
             if (FoodSlot.foodCount <= 0)
             {
                 isDestitute = true;
                 FoodSlot.isFood = false;
             }
-                
+        }
+
+        public void lastSlotHandler(Ant Ant)
+        {
+            Ant.followingPath = false;
+            takeFood(Ant);
+        }
+        public void firstSlotHandler(Ant Ant)
+        {
+            Ant.hasFood = false;
         }
     }
 }

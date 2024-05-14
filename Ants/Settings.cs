@@ -11,6 +11,8 @@ namespace Ants
     {
         public Point gridSize { get; set; }
         public Point hivePosition { get; set; }
+
+        public int antFoodCost { get; set; }
         public int antCount { get; set; }
 
         public bool gridIsRandom { get; set; }
@@ -30,6 +32,7 @@ namespace Ants
             gridSize = new Point(190, 100);
             hivePosition = new Point(95, 50);
             antCount = 750;
+            antFoodCost = 10;
 
             gridIsRandom = true;
             gridIsFilled = false;

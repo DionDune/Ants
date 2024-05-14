@@ -19,6 +19,8 @@ namespace Ants
         public bool returnCall { get; set; }
         public List<Ant> antsReturned { get; set; }
 
+        public int foodCount { get; set; }
+
 
         public Hive(Point position, int antCount)
         {
@@ -29,6 +31,9 @@ namespace Ants
 
             returnCall = false;
             antsReturned = new List<Ant>();
+
+            foodCount = 0;
+
 
             for (int i = 0; i < antCount; i++)
             {
@@ -53,6 +58,7 @@ namespace Ants
             return (null, 0);
         }
 
+
         public void triggerRecall()
         {
             returnCall = true;
@@ -62,11 +68,17 @@ namespace Ants
                 Ant.followingPath = false;
             }
         }
-        public void enactAI(Grid Grid)
+
+        public void enact(Game1 Game)
+        {
+            enactAI(Game);
+            foodHandler(Game);
+        }
+        private void enactAI(Game1 Game)
         {
             foreach (Ant Ant in Ants)
             {
-                Ant.enactAI(Grid);
+                Ant.enactAI(Game.Grid);
             }
 
             // RETURN CALL LOGIC
@@ -85,6 +97,15 @@ namespace Ants
 
                 returnCall = false;
                 antsReturned = new List<Ant>();
+            }
+        }
+        private void foodHandler(Game1 Game)
+        {
+            if (foodCount >= Game.Settings.antFoodCost)
+            {
+                Ants.Add(new Ant(Position));
+                Ants.Last().Hive = this;
+                foodCount -= Game.Settings.antFoodCost;
             }
         }
     }
@@ -296,8 +317,6 @@ namespace Ants
         }
         public void takeFood(Ant Ant)
         {
-            FoodSlot.foodCount--;
-
             if (FoodSlot.foodCount > 0)
                 Ant.hasFood = true;
 
@@ -306,6 +325,8 @@ namespace Ants
                 isDestitute = true;
                 FoodSlot.isFood = false;
             }
+
+            FoodSlot.foodCount--;
         }
 
         public void lastSlotHandler(Ant Ant)
@@ -315,7 +336,12 @@ namespace Ants
         }
         public void firstSlotHandler(Ant Ant)
         {
-            Ant.hasFood = false;
+            if (Ant.hasFood)
+            {
+                Ant.hasFood = false;
+                Hive.foodCount++;
+            }
+            
         }
     }
 }

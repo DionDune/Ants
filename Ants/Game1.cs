@@ -90,7 +90,7 @@ namespace Ants
 
             inputHandler.enact(this);
 
-            Hive.enactAI(Grid);
+            Hive.enact(this);
 
 
             base.Update(gameTime);

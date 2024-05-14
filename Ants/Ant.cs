@@ -130,8 +130,12 @@ namespace Ants
                 Movement = new Point(random.Next(-1, 2), random.Next(-1, 2));
             }
 
-            path.Positions.Add(Position);
-            Position += Movement;
+
+            if (Grid.Slots[Position.Y + Movement.Y][Position.X + Movement.X].isSolid == false)
+            {
+                path.Positions.Add(Position);
+                Position += Movement;
+            }
 
 
             // Destination found

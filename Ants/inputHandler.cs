@@ -56,6 +56,10 @@ namespace Ants
             if (isNewPress(Keys.A) == true)
                 Game.Settings.renderAnts = !Game.Settings.renderAnts;
 
+            // Destitute Path rendering
+            if (isNewPress(Keys.D) == true)
+                Game.Settings.renderDestituePaths = !Game.Settings.renderDestituePaths;
+
 
             PreviouseKeys = NewKeys;
         }

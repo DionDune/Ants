@@ -23,6 +23,7 @@ namespace Ants
         public bool renderAnts { get; set; }
         public bool renderRougePaths { get; set; }
         public bool renderCompletePaths { get; set; }
+        public bool renderDestituePaths { get; set; }
         public bool renderPathLines { get; set; }
         public bool renderPathSquares { get; set; }
 
@@ -42,6 +43,7 @@ namespace Ants
             renderAnts = true;
             renderRougePaths = true;
             renderCompletePaths = true;
+            renderDestituePaths = true;
 
             renderPathLines = false;
             renderPathSquares = true;

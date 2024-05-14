@@ -79,6 +79,36 @@ namespace Ants
             DrawLine(Point1, DistanceValue, Angle, Color, Thickness);
         }
 
+        void renderPath(Path Path)
+        {
+            if (Settings.renderPathSquares)
+                // Undertone
+                foreach (Point Pos in Path.Positions)
+                {
+                    float Opacity = 0;
+                    for (int i = 0; i < Path.AntCount; i++)
+                        Opacity = 1 - ((1 - Opacity) * 0.75F);
+                    _spriteBatch.Draw(Texture_White, new Rectangle(Pos.X * 10, Pos.Y * 10, 10, 10), Color.DarkRed * Opacity);
+                }
+
+            // Highlight
+            foreach (Point Pos in Path.Positions)
+            {
+                if (Settings.renderPathSquares)
+                    _spriteBatch.Draw(Texture_White, new Rectangle(Pos.X * 10, Pos.Y * 10, 10, 10), Color.Blue * 0.25F);
+
+
+                if (Settings.renderPathLines)
+                    if (Path.Positions.IndexOf(Pos) < Path.Positions.Count() - 1)
+                    {
+                        DrawLineBetween(new Vector2(Pos.X * 10 + 5, Pos.Y * 10 + 5),
+                                        new Vector2(Path.Positions[Path.Positions.IndexOf(Pos) + 1].X * 10 + 5,
+                                                    Path.Positions[Path.Positions.IndexOf(Pos) + 1].Y * 10 + 5),
+                                        Color.Blue, 5
+                                        );
+                    }
+            }
+        }
 
 
 
@@ -132,47 +162,28 @@ namespace Ants
                 foreach (Ant Ant in Hive.Ants)
                 {
                     if (!Ant.destinationFound)
-                    foreach (Point Pos in Ant.path.Positions)
-                    {
-                        _spriteBatch.Draw(Texture_White, new Rectangle(Pos.X * 10, Pos.Y * 10, 10, 10), Color.DarkRed * 0.25F);
-                    }
+                        foreach (Point Pos in Ant.path.Positions)
+                        {
+                            _spriteBatch.Draw(Texture_White, new Rectangle(Pos.X * 10, Pos.Y * 10, 10, 10), Color.DarkRed * 0.25F);
+                        }
                 }
 
 
+            // Complete Paths
             if (Settings.renderCompletePaths)
             {
-                if (Settings.renderPathSquares)
-                    // Complete Path Drawing - Undertone
-                    foreach (Path Path in Hive.Paths)
-                    {
-                        foreach (Point Pos in Path.Positions)
-                        {
-                            float Opacity = 0;
-                            for (int i = 0; i < Path.AntCount; i++)
-                                Opacity = 1 - ((1 - Opacity) * 0.75F);
-                            _spriteBatch.Draw(Texture_White, new Rectangle(Pos.X * 10, Pos.Y * 10, 10, 10), Color.DarkRed * Opacity);
-                        }
-                    }
-
-                // Complete Path Drawing - Highlight
                 foreach (Path Path in Hive.Paths)
                 {
-                    foreach (Point Pos in Path.Positions)
-                    {
-                        if (Settings.renderPathSquares)
-                            _spriteBatch.Draw(Texture_White, new Rectangle(Pos.X * 10, Pos.Y * 10, 10, 10), Color.Blue * 0.25F);
+                    renderPath(Path);
+                }
+            }
 
-
-                        if (Settings.renderPathLines)
-                            if (Path.Positions.IndexOf(Pos) < Path.Positions.Count() - 1)
-                            {
-                                DrawLineBetween(new Vector2(Pos.X * 10 + 5, Pos.Y * 10 + 5),
-                                                new Vector2(Path.Positions[Path.Positions.IndexOf(Pos) + 1].X * 10 + 5, 
-                                                            Path.Positions[Path.Positions.IndexOf(Pos) + 1].Y * 10 + 5),
-                                                Color.Blue, 5
-                                                );
-                            }
-                    }
+            // Destitute Paths
+            if (Settings.renderDestituePaths)
+            {
+                foreach (Path Path in Hive.DestitutePaths)
+                {
+                    renderPath(Path);
                 }
             }
 

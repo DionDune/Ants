@@ -17,7 +17,7 @@ namespace Ants
 
         public Settings Settings;
         inputHandler inputHandler;
-        Grid Grid;
+        public Grid Grid;
         public Hive Hive;
 
 

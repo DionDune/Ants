@@ -60,6 +60,18 @@ namespace Ants
             if (isNewPress(Keys.D) == true)
                 Game.Settings.renderDestituePaths = !Game.Settings.renderDestituePaths;
 
+            if (isNewPress(Keys.Y) == true)
+            {
+                foreach (Ant Ant in Game.Hive.Ants)
+                {
+                    Ant.Position = Ant.Hive.Position;
+                    Ant.Hive.antsReturned.Add(Ant);
+                    Ant.returned = true;
+                }
+
+            }
+
+
 
             PreviouseKeys = NewKeys;
         }

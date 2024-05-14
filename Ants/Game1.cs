@@ -119,6 +119,10 @@ namespace Ants
                     {
                         _spriteBatch.Draw(Texture_White, new Rectangle(Slot.Position.X * 10, Slot.Position.Y * 10, 10, 10), Color.Gold);
                     }
+                    if (Slot.isSolid)
+                    {
+                        _spriteBatch.Draw(Texture_White, new Rectangle(Slot.Position.X * 10, Slot.Position.Y * 10, 10, 10), Color.DarkGray);
+                    }
                 }
             }
 

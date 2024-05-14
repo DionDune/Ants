@@ -145,39 +145,54 @@ namespace Ants
 
             Point Movement = new Point( random.Next(-1, 2), random.Next(-1, 2) );
 
-            while (Position.X + Movement.X < 0 || Position.X + Movement.X >= Grid.Dimentions.X ||
+            if (!returned)
+            {
+                while (Position.X + Movement.X < 0 || Position.X + Movement.X >= Grid.Dimentions.X ||
                    Position.Y + Movement.Y < 0 || Position.Y + Movement.Y >= Grid.Dimentions.Y)
-            {
-                Movement = new Point(random.Next(-1, 2), random.Next(-1, 2));
-            }
-
-
-            if (Grid.Slots[Position.Y + Movement.Y][Position.X + Movement.X].isSolid == false)
-            {
-                path.Positions.Add(Position);
-                Position += Movement;
-            }
-
-
-            // Destination found
-            if (Grid.Slots[Position.Y][Position.X].isFood)
-            {
-                path.isComplete = true;
-                path.FoodSlot = Grid.Slots[Position.Y][Position.X];
-                path.Hive = Hive;
-                path.takeFood(this);
-
-                Hive.Paths.Add(path);
-                destinationFound = true;
-                PathIndex = path.Positions.Count() - 1;
-            }
-            else
-            {
-                (Path, int) crossingPath = Hive.getCrossingPath(Position);
-
-                if (crossingPath.Item1 != null)
                 {
-                    crossingPath.Item1.joinAnt(this, crossingPath.Item2);
+                    Movement = new Point(random.Next(-1, 2), random.Next(-1, 2));
+                }
+
+
+                if (Grid.Slots[Position.Y + Movement.Y][Position.X + Movement.X].isSolid == false)
+                {
+                    path.Positions.Add(Position);
+                    Position += Movement;
+                }
+
+
+                // Hive crossed on return / Ant returns to hive
+                if (Hive.returnCall && Position == Hive.Position)
+                {
+                    if (!Hive.antsReturned.Contains(this))
+                    {
+                        Hive.antsReturned.Add(this);
+                        returned = true;
+                        return;
+                    }
+                }
+
+
+                // Destination found
+                if (Grid.Slots[Position.Y][Position.X].isFood)
+                {
+                    path.isComplete = true;
+                    path.FoodSlot = Grid.Slots[Position.Y][Position.X];
+                    path.Hive = Hive;
+                    path.takeFood(this);
+
+                    Hive.Paths.Add(path);
+                    destinationFound = true;
+                    PathIndex = path.Positions.Count() - 1;
+                }
+                else
+                {
+                    (Path, int) crossingPath = Hive.getCrossingPath(Position);
+
+                    if (crossingPath.Item1 != null)
+                    {
+                        crossingPath.Item1.joinAnt(this, crossingPath.Item2);
+                    }
                 }
             }
         }

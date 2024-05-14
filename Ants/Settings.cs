@@ -43,7 +43,7 @@ namespace Ants
             renderAnts = true;
             renderRougePaths = true;
             renderCompletePaths = true;
-            renderDestituePaths = true;
+            renderDestituePaths = false;
 
             renderPathLines = false;
             renderPathSquares = true;

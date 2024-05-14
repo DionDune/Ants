@@ -79,7 +79,7 @@ namespace Ants
             DrawLine(Point1, DistanceValue, Angle, Color, Thickness);
         }
 
-        void renderPath(Path Path)
+        void renderPath(Path Path, Color HighlightColor)
         {
             if (Settings.renderPathSquares)
                 // Undertone
@@ -95,7 +95,7 @@ namespace Ants
             foreach (Point Pos in Path.Positions)
             {
                 if (Settings.renderPathSquares)
-                    _spriteBatch.Draw(Texture_White, new Rectangle(Pos.X * 10, Pos.Y * 10, 10, 10), Color.Blue * 0.25F);
+                    _spriteBatch.Draw(Texture_White, new Rectangle(Pos.X * 10, Pos.Y * 10, 10, 10), HighlightColor * 0.25F);
 
 
                 if (Settings.renderPathLines)
@@ -104,7 +104,7 @@ namespace Ants
                         DrawLineBetween(new Vector2(Pos.X * 10 + 5, Pos.Y * 10 + 5),
                                         new Vector2(Path.Positions[Path.Positions.IndexOf(Pos) + 1].X * 10 + 5,
                                                     Path.Positions[Path.Positions.IndexOf(Pos) + 1].Y * 10 + 5),
-                                        Color.Blue, 5
+                                        HighlightColor, 5
                                         );
                     }
             }
@@ -174,7 +174,7 @@ namespace Ants
             {
                 foreach (Path Path in Hive.Paths)
                 {
-                    renderPath(Path);
+                    renderPath(Path, Color.Blue);
                 }
             }
 
@@ -183,7 +183,7 @@ namespace Ants
             {
                 foreach (Path Path in Hive.DestitutePaths)
                 {
-                    renderPath(Path);
+                    renderPath(Path, Color.Green);
                 }
             }
 

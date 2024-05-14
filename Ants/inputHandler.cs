@@ -81,7 +81,7 @@ namespace Ants
                 MouseGridPos.Y > -1 && MouseGridPos.Y < Game.Grid.Dimentions.Y)
             {
                 if (LeftClick)
-                    Game.Grid.Slots[MouseGridPos.Y][MouseGridPos.X].ToggleSolid();
+                    Game.Grid.Slots[MouseGridPos.Y][MouseGridPos.X].ToggleSolid(!AltState);
                 else if (RightClick)
                     Game.Grid.Slots[MouseGridPos.Y][MouseGridPos.X].ToggleFood(!AltState);
             }

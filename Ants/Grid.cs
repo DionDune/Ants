@@ -84,9 +84,12 @@ namespace Ants
             foodCount = foodCountDefault;
         }
 
-        public void ToggleSolid()
+        public void ToggleSolid(bool? State)
         {
-            isSolid = !isSolid;
+            if (State == null)
+                isSolid = !isSolid;
+            else
+                isSolid = (bool)State;
         }
         public void ToggleFood(bool? State)
         {

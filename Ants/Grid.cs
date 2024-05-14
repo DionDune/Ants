@@ -32,7 +32,7 @@ namespace Ants
 
                 for (int x = 0; x < Dimentions.X; x++)
                 {
-                    Slots.Last().Add(new GridSlot( new Point(x, y), Settings.foodSlotCapacity ) );
+                    Slots.Last().Add(new GridSlot( new Point(x, y)) );
                 }
             }
 
@@ -44,7 +44,7 @@ namespace Ants
             }
             for (int i = 0; i < Dimentions.Y; i++)
             {
-                Slots[i][0].isFood = true;
+                Slots[i][0].ToggleFood(true);
                 Slots[i].Last().isFood = true;
             }
 
@@ -57,27 +57,46 @@ namespace Ants
                         _random.Next(0, Dimentions.Y)
                         );
 
-                    Slots[SlotPos.Y][SlotPos.X].isFood = true;
+                    Slots[SlotPos.Y][SlotPos.X].ToggleFood(true);
                 }
 
             // Assign ALL Slots as food
             if (Settings.gridIsFilled)
                 foreach (List<GridSlot> Row in Slots)
                     foreach (GridSlot Slot in Row)
-                        Slot.isFood = true;
+                        Slot.ToggleFood(true);
         }
     }
 
     public class GridSlot
     {
         public Point Position { get; set; }
+        public bool isSolid { get; set; }
         public bool isFood { get; set; }
         public int foodCount { get; set; }
+        private const int foodCountDefault = 20;
 
-        public GridSlot(Point position, int FoodCapacity)
+        public GridSlot(Point position)
         {
             Position = position;
-            foodCount = FoodCapacity;
+            isSolid = false;
+            isFood = false;
+            foodCount = foodCountDefault;
+        }
+
+        public void ToggleSolid()
+        {
+            isSolid = !isSolid;
+        }
+        public void ToggleFood(bool? State)
+        {
+            if (State == null)
+                isFood = !isFood;
+            else
+                isFood = (bool)State;
+
+            
+            foodCount = foodCountDefault;
         }
     }
 }

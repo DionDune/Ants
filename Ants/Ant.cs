@@ -193,6 +193,8 @@ namespace Ants
                     {
                         crossingPath.Item1.joinAnt(this, crossingPath.Item2);
                     }
+                    else
+                        path.simplifyFromLast(this);
                 }
             }
         }
@@ -357,6 +359,27 @@ namespace Ants
                 Hive.foodCount++;
             }
             
+        }
+
+        private void simplify(int Index, Ant Ant)
+        {
+            for (int i = Index - 1; i > 0; i--)
+            {
+                if (Positions[i] == Positions[Index])
+                {
+                    Positions.RemoveRange(i, Index - i);
+                    Ant.PathIndex -= Index - i;
+                    break;
+                }
+            }
+        }
+        public void simplifyFromLast(Ant Ant)
+        {
+            simplify(Positions.Count - 1, Ant);
+        }
+        public void simplifyFrom(int Index, Ant Ant)
+        {
+            simplify(Index, Ant);
         }
     }
 }

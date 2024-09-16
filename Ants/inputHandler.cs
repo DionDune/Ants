@@ -18,6 +18,10 @@ namespace Ants
         ///     A - Toggle Ant rendering
         ///     D - Toggle Destitute Path rendering
         ///     Y - Force Reset Ants
+        ///     
+        ///     L Mouse - Place Wall
+        ///     R Mouse - Place Food
+        ///     Shift - Mouse clicks perform opposite function
         /// 
         /// </summary>
 

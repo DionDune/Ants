@@ -16,6 +16,8 @@ namespace Ants
         ///     R - Trigger Recall
         ///     G - Toggle Grid rendering
         ///     A - Toggle Ant rendering
+        ///     D - Toggle Destitute Path rendering
+        ///     Y - Force Reset Ants
         /// 
         /// </summary>
 
